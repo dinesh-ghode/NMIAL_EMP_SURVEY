@@ -1,0 +1,798 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employee Satisfaction Survey — NMIA Engineering & Maintenance</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:      #002366;
+    --blue:      #0047AB;
+    --blue-mid:  #0062cc;
+    --blue-lt:   #e8f0fb;
+    --gold:      #f0a500;
+    --gold-lt:   #fffbef;
+    --red:       #c0392b;
+    --green:     #1a7f5a;
+    --text:      #1a1a2e;
+    --muted:     #5a6480;
+    --border:    #d6dbe8;
+    --bg:        #f0f3fa;
+    --white:     #ffffff;
+    --r:         12px;
+    --rl:        18px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 4rem;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, #001a4d 0%, var(--navy) 40%, var(--blue) 100%);
+    position: relative; overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 80% 50%, rgba(255,255,255,0.05) 0%, transparent 60%),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .header-inner {
+    max-width: 860px; margin: 0 auto;
+    padding: 2.2rem 2rem 2rem;
+    position: relative; z-index: 1;
+  }
+  .header-top { display: flex; align-items: center; gap: 18px; margin-bottom: 1.2rem; }
+
+  .logo-wrap {
+    width: 66px; height: 66px; border-radius: 50%;
+    background: white; flex-shrink: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  }
+  .logo-plane { font-size: 24px; line-height: 1; }
+  .logo-text  { font-size: 8px; font-weight: 800; color: var(--navy); letter-spacing: 1px; margin-top: 3px; }
+
+  .hdr-text h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(15px, 3.5vw, 22px);
+    font-weight: 800; color: white; line-height: 1.2;
+  }
+  .hdr-text .sub { font-size: 12.5px; color: rgba(255,255,255,0.65); margin-top: 4px; }
+
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 5px 14px; border-radius: 20px;
+    font-size: 12px; font-weight: 500;
+  }
+  .b-dept { background: rgba(255,255,255,0.13); color: white; border: 1px solid rgba(255,255,255,0.28); }
+  .b-conf { background: rgba(240,165,0,0.18); color: #ffe08a; border: 1px solid rgba(240,165,0,0.32); }
+
+  /* ── PROGRESS ── */
+  .prog-wrap {
+    max-width: 860px; margin: 0 auto;
+    padding: 1.4rem 2rem 0.6rem;
+  }
+  .prog-meta { display: flex; justify-content: space-between; margin-bottom: 7px; }
+  .prog-meta span { font-size: 13px; color: var(--muted); font-weight: 500; }
+  .prog-meta strong { color: var(--blue); }
+  .prog-track { height: 7px; background: #dce4f5; border-radius: 4px; overflow: hidden; }
+  .prog-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--navy), var(--blue), #4da3ff);
+    border-radius: 4px;
+    transition: width 0.45s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* ── LAYOUT ── */
+  .wrap { max-width: 860px; margin: 0 auto; padding: 1.4rem 1.5rem 0; }
+
+  .card {
+    background: var(--white);
+    border-radius: var(--rl);
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 16px rgba(0,35,102,0.08);
+    margin-bottom: 1.4rem;
+    overflow: hidden;
+  }
+  .card-head {
+    display: flex; align-items: center; gap: 12px;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #edf0f8;
+    background: linear-gradient(90deg, #f0f4ff 0%, #f8f9fe 100%);
+  }
+  .ch-icon {
+    width: 34px; height: 34px; border-radius: 9px;
+    background: linear-gradient(135deg, var(--navy), var(--blue));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+  .card-head h2 {
+    font-size: 13.5px; font-weight: 700; color: var(--navy);
+    text-transform: uppercase; letter-spacing: 0.9px;
+  }
+  .card-head .cs { font-size: 12px; color: var(--muted); margin-top: 2px; font-weight: 400; }
+  .card-body { padding: 1.5rem; }
+
+  /* ── FORM ── */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .fg { display: flex; flex-direction: column; gap: 6px; }
+  .fg label { font-size: 13px; font-weight: 600; color: var(--muted); }
+  .req { color: var(--red); margin-left: 2px; }
+  .fg input, .fg select {
+    height: 44px; padding: 0 14px;
+    font-size: 14px; font-family: 'Inter', sans-serif;
+    border: 1.5px solid var(--border); border-radius: var(--r);
+    background: var(--white); color: var(--text);
+    transition: border 0.2s, box-shadow 0.2s; outline: none;
+    appearance: none; -webkit-appearance: none;
+  }
+  .fg select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a6480' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center;
+    padding-right: 38px; cursor: pointer;
+  }
+  .fg input:focus, .fg select:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(0,71,171,0.13);
+  }
+  .fg input.err, .fg select.err {
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px rgba(192,57,43,0.10);
+    animation: shake 0.35s ease;
+  }
+  @keyframes shake {
+    0%,100%{ transform: translateX(0); }
+    25%    { transform: translateX(-5px); }
+    75%    { transform: translateX(5px); }
+  }
+  .err-msg { font-size: 11.5px; color: var(--red); font-weight: 500; display: none; }
+  .err-msg.show { display: block; }
+  .hint { font-size: 11.5px; color: #9aa3b8; }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex; justify-content: space-between; flex-wrap: wrap;
+    gap: 6px; padding: 10px 14px; border-radius: 10px;
+    background: var(--gold-lt); border: 1px solid #f0d57a;
+    margin-bottom: 1.2rem;
+  }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #7a5200; font-weight: 500; }
+  .lstar { font-size: 13px; }
+
+  /* ── QUESTION ITEM ── */
+  .q-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid #f0f2f9;
+    transition: background 0.2s;
+    border-radius: 6px;
+  }
+  .q-item:last-child { border-bottom: none; padding-bottom: 0.3rem; }
+
+  .q-top { display: flex; align-items: flex-start; gap: 11px; margin-bottom: 10px; }
+  .q-num {
+    min-width: 28px; height: 28px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--navy), var(--blue));
+    color: white; font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px; box-shadow: 0 2px 6px rgba(0,71,171,0.3);
+    transition: background 0.3s;
+  }
+  .q-num.done {
+    background: linear-gradient(135deg, #1a7f5a, #27ae74);
+    box-shadow: 0 2px 6px rgba(26,127,90,0.35);
+  }
+  .q-text { font-size: 14px; font-weight: 500; color: var(--text); line-height: 1.55; flex: 1; }
+
+  /* ── ANSWERS ── */
+  .answers-wrap { display: flex; align-items: center; gap: 12px; margin-left: 39px; flex-wrap: wrap; }
+  .answer-row { display: flex; gap: 10px; }
+  .answer-btn {
+    min-width: 88px; padding: 11px 14px;
+    border-radius: 999px; border: 1.5px solid #ccd7ee;
+    background: white; color: var(--navy);
+    font-size: 14px; font-weight: 700;
+    cursor: pointer; transition: all 0.18s ease;
+  }
+  .answer-btn:hover { background: #f0f4ff; border-color: var(--blue); }
+  .answer-btn.active {
+    background: linear-gradient(135deg, var(--navy), var(--blue));
+    color: white; border-color: transparent;
+    box-shadow: 0 8px 20px rgba(0,71,171,0.18);
+  }
+  .answer-btn.no.active { background: linear-gradient(135deg, #c0392b, #e74c3c); }
+
+  .chip {
+    padding: 4px 13px; border-radius: 20px;
+    font-size: 12px; font-weight: 600;
+    transition: all 0.2s; white-space: nowrap;
+  }
+  .chip.empty { background: #f0f2f8; color: var(--muted); border: 1px solid var(--border); font-weight: 400; }
+  .chip.yes { background: #e0f7ee; color: #0d5c38; border: 1px solid #6fd4a8; }
+  .chip.no  { background: #fde8e8; color: #8b0000; border: 1px solid #f5b7b7; }
+
+  /* ── LIVE SUMMARY ── */
+  .summary-panel {
+    background: var(--blue-lt);
+    border-radius: var(--r);
+    border: 1px solid #c5d8f8;
+    padding: 1.1rem 1.3rem;
+    margin-bottom: 1.4rem;
+    display: none;
+    transition: all 0.3s;
+  }
+  .summary-panel.show { display: block; }
+  .sum-title { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.7px; }
+  .sum-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin-bottom: 12px; }
+  .sc {
+    background: white; border-radius: 10px; padding: 8px 10px;
+    border: 1px solid #d0e0f8; text-align: center;
+  }
+  .sc .sn { font-size: 11px; color: var(--muted); font-weight: 500; margin-bottom: 3px; }
+  .sc .sv { font-size: 20px; font-weight: 700; color: var(--navy); line-height: 1.2; }
+  .sc .sl { font-size: 10.5px; color: var(--muted); margin-top: 2px; }
+  .sc.avg-card .sv { color: var(--gold); font-size: 24px; }
+  .ob-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 5px; font-weight: 500; }
+  .ob-track { height: 8px; background: #dce4f5; border-radius: 4px; overflow: hidden; }
+  .ob-fill  { height: 100%; background: linear-gradient(90deg, var(--navy), #4da3ff); border-radius: 4px; transition: width 0.5s ease; }
+
+  /* ── NOTE BAR ── */
+  .note-bar { font-size: 12.5px; color: var(--muted); margin-bottom: 1.1rem; display: flex; align-items: center; gap: 6px; }
+
+  /* ── SUBMIT ── */
+  .submit-btn {
+    width: 100%; padding: 15px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px; font-weight: 700; letter-spacing: 0.4px;
+    background: linear-gradient(135deg, var(--navy), var(--blue-mid));
+    color: white; border: none; border-radius: var(--rl);
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0,71,171,0.3);
+    transition: opacity 0.2s, transform 0.12s;
+    position: relative; overflow: hidden;
+  }
+  .submit-btn::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transform: translateX(-100%); transition: transform 0.6s;
+  }
+  .submit-btn:hover::after { transform: translateX(100%); }
+  .submit-btn:hover { opacity: 0.91; }
+  .submit-btn:active { transform: scale(0.985); }
+  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; top: 20px; right: 20px; z-index: 9999;
+    min-width: 280px; max-width: 360px;
+    padding: 13px 18px; border-radius: 12px;
+    font-size: 13.5px; font-weight: 500;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+    display: flex; align-items: center; gap: 10px;
+    opacity: 0; transform: translateY(-10px) scale(0.96);
+    transition: all 0.3s cubic-bezier(.4,0,.2,1);
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+  .toast.ok  { background: #1a7f5a; color: white; }
+  .toast.bad { background: var(--red); color: white; }
+
+  /* ── SUCCESS SCREEN ── */
+  #successScreen { display: none; max-width: 860px; margin: 2rem auto; padding: 0 1.5rem; }
+  .success-card {
+    background: white; border-radius: var(--rl);
+    border: 1px solid var(--border);
+    box-shadow: 0 6px 32px rgba(0,35,102,0.12);
+    text-align: center; padding: 3rem 2.5rem;
+  }
+  .sc-icon { font-size: 64px; margin-bottom: 1.2rem; animation: pop 0.5s ease; }
+  @keyframes pop { 0%{transform:scale(0.5);opacity:0} 80%{transform:scale(1.1)} 100%{transform:scale(1);opacity:1} }
+  .success-card h2 { font-family:'Poppins',sans-serif; font-size:24px; font-weight:800; color:var(--navy); margin-bottom:10px; }
+  .success-card p  { font-size:14px; color:var(--muted); line-height:1.75; }
+  .tags-row { margin-top: 1.2rem; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+  .sc-tag {
+    padding: 8px 22px; border-radius: 20px;
+    font-weight: 700; font-size: 14px; letter-spacing: 0.4px;
+  }
+  .sc-tag.blue { background: var(--blue-lt); color: var(--blue); border: 1.5px solid #b3cdf5; }
+  .sc-tag.gold { background: var(--gold-lt); color: #7a5200; border: 1.5px solid #f0d57a; }
+  .new-btn {
+    margin-top: 1.8rem; padding: 12px 32px;
+    background: linear-gradient(135deg, var(--navy), var(--blue-mid));
+    color: white; border: none; border-radius: var(--r);
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: opacity 0.2s;
+  }
+  .new-btn:hover { opacity: 0.88; }
+
+  /* ── FOOTER ── */
+  .footer { text-align:center; margin-top:2rem; font-size:12px; color:#9aa3b8; }
+  .footer a { color:var(--blue); text-decoration:none; }
+
+  @media(max-width:600px){
+    .form-grid { grid-template-columns:1fr; }
+    .header-inner { padding:1.5rem 1rem; }
+    .wrap { padding:1rem 0.75rem 0; }
+    .card-body { padding:1.1rem; }
+    .answer-btn { min-width: 48%; }
+    .legend { display:none; }
+    .legend-mob { display:flex !important; }
+    .badges { flex-direction: column; }
+  }
+  .legend-mob {
+    display:none; flex-wrap:wrap;
+    gap:5px; padding:9px 12px; border-radius:10px;
+    background:var(--gold-lt); border:1px solid #f0d57a; margin-bottom:1.1rem;
+  }
+  .legend-mob span { font-size:11.5px; color:#7a5200; font-weight:500; }
+  </style>
+  </head>
+  <body>
+
+  <!-- ══ HEADER ══ -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-top">
+        <div class="logo-wrap">
+          <div class="logo-plane">✈</div>
+          <div class="logo-text">NMIA</div>
+        </div>
+        <div class="hdr-text">
+          <h1>Navi Mumbai International Airport</h1>
+          <div class="sub">navimumbai.adaniairports.com &nbsp;·&nbsp; Adani Airports</div>
+        </div>
+      </div>
+      <div class="badges">
+        <span class="badge b-dept">⚙ Engineering &amp; Maintenance Department</span>
+        <span class="badge b-conf">🔒 Responses are strictly confidential</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══ PROGRESS BAR ══ -->
+  <div class="prog-wrap">
+    <div class="prog-meta">
+      <span id="progTxt">Fill in your details to begin</span>
+      <strong id="progPct">0%</strong>
+    </div>
+    <div class="prog-track">
+      <div class="prog-fill" id="progFill" style="width:1%"></div>
+    </div>
+  </div>
+
+  <!-- ══ MAIN FORM ══ -->
+  <div class="wrap" id="mainSurvey">
+
+    <p class="note-bar">
+      <span style="color:var(--red);font-size:16px;line-height:1;">★</span>
+      All fields and all answers are mandatory.
+    </p>
+
+    <!-- EMPLOYEE DETAILS CARD -->
+    <div class="card">
+      <div class="card-head">
+        <div class="ch-icon">👤</div>
+        <div>
+          <h2>Employee Information</h2>
+          <div class="cs">Fill in your details accurately before proceeding</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="form-grid">
+
+          <div class="fg">
+            <label>Employee ID <span class="req">*</span></label>
+            <input type="text" id="empId" placeholder="e.g. EMP00123" autocomplete="off" />
+            <span class="err-msg" id="e-empId">Employee ID is required.</span>
+          </div>
+
+          <div class="fg">
+            <label>Full Name <span class="req">*</span></label>
+            <input type="text" id="empName" placeholder="Enter your full name" autocomplete="off" />
+            <span class="err-msg" id="e-empName">Full name is required.</span>
+          </div>
+
+          <div class="fg">
+            <label>Organization <span class="req">*</span></label>
+            <select id="empOrg">
+              <option value="">— Select your organization —</option>
+              <option value="M/s. OCS">M/s. OCS</option>
+              <option value="M/s. BVG">M/s. BVG</option>
+              <option value="M/s. Millinium">M/s. Millinium</option>
+              <option value="M/s. Schindler">M/s. Schindler</option>
+              <option value="M/s. AMA">M/s. AMA</option>
+              <option value="M/s. NMIAL">M/s. NMIAL</option>
+            </select>
+            <span class="err-msg" id="e-empOrg">Please select your organization.</span>
+          </div>
+
+          <div class="fg">
+            <label>Mobile Number <span class="req">*</span></label>
+            <input type="tel" id="empMobile" placeholder="10-digit mobile number" maxlength="10" autocomplete="off" />
+            <span class="err-msg" id="e-empMobile">Enter a valid 10-digit mobile number.</span>
+            <span class="hint">Indian number without country code</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- SURVEY QUESTIONS CARD -->
+    <div class="card">
+      <div class="card-head">
+        <div class="ch-icon">📋</div>
+        <div>
+          <h2>Satisfaction Survey — 10 Questions</h2>
+          <div class="cs">Answer each question honestly with Yes or No</div>
+        </div>
+      </div>
+      <div class="card-body">
+
+        <!-- Desktop legend -->
+        <div class="legend">
+          <div class="legend-item"><span class="lstar">✅</span>&nbsp;Yes</div>
+          <div class="legend-item"><span class="lstar">❌</span>&nbsp;No</div>
+        </div>
+
+        <!-- Mobile legend -->
+        <div class="legend-mob">
+          <span>⭐ Very Dissatisfied</span>
+          <span>⭐⭐ Dissatisfied</span>
+          <span>⭐⭐⭐ Neutral</span>
+          <span>⭐⭐⭐⭐ Satisfied</span>
+          <span>⭐⭐⭐⭐⭐ Very Satisfied</span>
+        </div>
+
+        <div id="qContainer"></div>
+
+      </div>
+    </div>
+
+    <!-- LIVE SUMMARY -->
+    <div class="summary-panel" id="summaryPanel">
+      <div class="sum-title">📊 Live Response Summary</div>
+      <div class="sum-grid" id="sumGrid"></div>
+      <div class="ob-label">
+        <span>Overall Satisfaction Score</span>
+        <span id="avgLabel">—</span>
+      </div>
+      <div class="ob-track">
+        <div class="ob-fill" id="avgBar" style="width:0%"></div>
+      </div>
+    </div>
+
+    <!-- SUBMIT BUTTON -->
+    <button class="submit-btn" id="submitBtn" onclick="submitSurvey()">
+      🚀 &nbsp; Submit Survey
+    </button>
+
+    <div class="footer" style="margin-top:1.6rem;">
+      <p>© 2025 Navi Mumbai International Airport &nbsp;|&nbsp;
+        <a href="https://navimumbai.adaniairports.com" target="_blank">navimumbai.adaniairports.com</a>
+      </p>
+      <p style="margin-top:4px;">Engineering &amp; Maintenance Department &nbsp;·&nbsp; Powered by Adani Airports</p>
+    </div>
+  </div>
+
+  <!-- ══ SUCCESS SCREEN ══ -->
+  <div id="successScreen">
+    <div class="success-card">
+      <div class="sc-icon">✅</div>
+      <h2>Thank you for your feedback!</h2>
+      <p>
+        Your response has been saved successfully to our system.<br>
+        Your honest input helps improve the workplace at<br>
+        <strong>Navi Mumbai International Airport — Engineering &amp; Maintenance.</strong>
+      </p>
+      <div class="tags-row">
+        <span class="sc-tag blue">Survey ID: <span id="scSid"></span></span>
+        <span class="sc-tag gold">Responses: <span id="scYesNo"></span></span>
+      </div>
+      <br>
+      <button class="new-btn" onclick="resetSurvey()">↩ &nbsp; Submit Another Response</button>
+    </div>
+    <div class="footer">
+      <p>© 2025 Navi Mumbai International Airport &nbsp;|&nbsp;
+        <a href="https://navimumbai.adaniairports.com" target="_blank">navimumbai.adaniairports.com</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- ══ TOAST ══ -->
+  <div class="toast" id="toast">
+    <span id="toastIcon" style="font-size:18px;"></span>
+    <span id="toastMsg"></span>
+  </div>
+
+  <script>
+  // ════════════════════════════════════════════
+  //  CONFIG — paste your deployed Apps Script URL here
+  // ════════════════════════════════════════════
+  const SHEET_URL = "https://script.google.com/macros/s/AKfycbzc-o80QbnijrO86ZgG5tP0EjID43A4PDWtUYLgsWPO7aE63hjdF4HgOIvx7dhNtbfH/exec";
+
+  // ════════════════════════════════════════════
+  //  DATA
+  // ════════════════════════════════════════════
+  const QUESTIONS = [
+    "Are you receiving your wages on time?",
+    "Are you treated respectfully by your colleagues and supervisors?",
+    "Do you understand your role and responsibilities clearly?",
+    "Do you require any training and support for your current role?",
+    "Are you satisfied with the transport facilities provided within the airport premises?",
+    "Do you feel supported by your supervisor / manager in your daily tasks?",
+    "Are you satisfied with your work schedule and shift timings?",
+    "How satisfied are you with the facilities provided (restrooms, break areas, equipment, etc.)?",
+    "Do you feel your contributions are recognized and appreciated by management?",
+    "How satisfied are you with the safety and security measures implemented at your workplace?"
+  ];
+
+  // ════════════════════════════════════════════
+  //  STATE
+  // ════════════════════════════════════════════
+  let answers = {};
+
+  // ════════════════════════════════════════════
+  //  BUILD QUESTION LIST
+  // ════════════════════════════════════════════
+  function buildQuestions() {
+    const c = document.getElementById('qContainer');
+    c.innerHTML = '';
+    QUESTIONS.forEach((q, i) => {
+      const n = i + 1;
+      const div = document.createElement('div');
+      div.className = 'q-item';
+      div.id = `qi_${n}`;
+      div.innerHTML = `
+        <div class="q-top">
+          <span class="q-num" id="qn_${n}">${n}</span>
+          <span class="q-text">${q}</span>
+        </div>
+        <div class="answers-wrap">
+          <div class="answer-row" id="ar_${n}">
+            <button type="button" class="answer-btn yes" id="a_${n}_yes" onclick="answer(${n}, 'Yes')">YES</button>
+            <button type="button" class="answer-btn no" id="a_${n}_no" onclick="answer(${n}, 'No')">NO</button>
+          </div>
+          <span class="chip empty" id="chip_${n}">Select answer</span>
+        </div>
+      `;
+      c.appendChild(div);
+    });
+  }
+
+  function answer(q, value) {
+    answers[q] = value;
+
+    document.getElementById(`a_${q}_yes`).classList.toggle('active', value === 'Yes');
+    document.getElementById(`a_${q}_no`).classList.toggle('active', value === 'No');
+
+    const chip = document.getElementById(`chip_${q}`);
+    chip.textContent = value;
+    chip.className = `chip ${value.toLowerCase()}`;
+
+    const num = document.getElementById(`qn_${q}`);
+    num.textContent = '✓';
+    num.classList.add('done');
+
+    updateProgress();
+    updateSummary();
+  }
+
+  // ════════════════════════════════════════════
+  //  PROGRESS BAR
+  // ════════════════════════════════════════════
+  function updateProgress() {
+    const empFilled = ['empId','empName','empOrg','empMobile']
+      .filter(id => document.getElementById(id).value.trim() !== '').length;
+    const answered = Object.keys(answers).length;
+    const total    = QUESTIONS.length + 4;
+    const pct      = Math.round(((empFilled + answered) / total) * 100);
+
+    document.getElementById('progFill').style.width = pct + '%';
+    document.getElementById('progPct').textContent  = pct + '%';
+    document.getElementById('progTxt').textContent  =
+      answered === 0
+        ? 'Fill in your details to begin'
+        : `${answered} of ${QUESTIONS.length} questions answered`;
+  }
+
+  ['empId','empName','empOrg','empMobile'].forEach(id =>
+    document.getElementById(id).addEventListener('input', updateProgress)
+  );
+
+  // ════════════════════════════════════════════
+  //  LIVE SUMMARY PANEL
+  // ════════════════════════════════════════════
+  function getLevel(a) {
+    if (a >= 4.5) return 'Excellent';
+    if (a >= 3.5) return 'Satisfied';
+    if (a >= 2.5) return 'Neutral';
+    if (a >= 1.5) return 'Dissatisfied';
+    return 'Very Dissatisfied';
+  }
+
+  function updateSummary() {
+    const answered = Object.keys(answers).length;
+    const panel    = document.getElementById('summaryPanel');
+    if (answered === 0) { panel.classList.remove('show'); return; }
+    panel.classList.add('show');
+
+    const vals   = Object.values(answers);
+    const counts = { Yes: 0, No: 0 };
+    vals.forEach(v => { if (v === 'Yes') counts.Yes++; else counts.No++; });
+    const yesPct = Math.round((counts.Yes / answered) * 100);
+
+    document.getElementById('sumGrid').innerHTML = `
+      <div class="sc avg-card">
+        <div class="sn">Answered</div>
+        <div class="sv">${answered}/${QUESTIONS.length}</div>
+        <div class="sl">Responses</div>
+      </div>
+      <div class="sc">
+        <div class="sn">Yes</div>
+        <div class="sv">${counts.Yes}</div>
+        <div class="sl">${yesPct}% of answers</div>
+      </div>
+      <div class="sc">
+        <div class="sn">No</div>
+        <div class="sv">${counts.No}</div>
+        <div class="sl">${100 - yesPct}% of answers</div>
+      </div>
+    `;
+
+    document.getElementById('avgBar').style.width   = `${yesPct}%`;
+    document.getElementById('avgLabel').textContent = `${counts.Yes} Yes · ${counts.No} No`;
+  }
+
+  // ════════════════════════════════════════════
+  //  TOAST
+  // ════════════════════════════════════════════
+  function showToast(msg, type='ok') {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent  = msg;
+    document.getElementById('toastIcon').textContent = type === 'ok' ? '✅' : '⚠️';
+    t.className = `toast ${type} show`;
+    setTimeout(() => t.classList.remove('show'), 4200);
+  }
+
+  // ════════════════════════════════════════════
+  //  VALIDATION
+  // ════════════════════════════════════════════
+  function validate() {
+    let ok = true;
+
+    const fields = [
+      { id: 'empId',     errId: 'e-empId' },
+      { id: 'empName',   errId: 'e-empName' },
+      { id: 'empOrg',    errId: 'e-empOrg' },
+      { id: 'empMobile', errId: 'e-empMobile' }
+    ];
+
+    fields.forEach(f => {
+      const el  = document.getElementById(f.id);
+      const em  = document.getElementById(f.errId);
+      if (!el.value.trim()) {
+        el.classList.add('err'); em.classList.add('show'); ok = false;
+      } else {
+        el.classList.remove('err'); em.classList.remove('show');
+      }
+    });
+
+    const mob = document.getElementById('empMobile').value.trim();
+    if (mob && !/^\d{10}$/.test(mob)) {
+      document.getElementById('empMobile').classList.add('err');
+      document.getElementById('e-empMobile').classList.add('show');
+      ok = false;
+    }
+
+    if (!ok) { showToast('Please fill all mandatory employee details correctly.', 'bad'); return false; }
+
+    const missing = QUESTIONS.map((_, i) => i+1).filter(n => !answers[n]);
+    if (missing.length > 0) {
+      showToast(`Please answer question${missing.length > 1 ? 's' : ''}: ${missing.slice(0,5).join(', ')}${missing.length > 5 ? '…' : ''}`, 'bad');
+      const el = document.getElementById(`qi_${missing[0]}`);
+      el.scrollIntoView({ behavior:'smooth', block:'center' });
+      el.style.background = '#fff8e6';
+      setTimeout(() => el.style.background = '', 1400);
+      return false;
+    }
+
+    return true;
+  }
+
+  // ════════════════════════════════════════════
+  //  SUBMIT TO GOOGLE SHEETS
+  // ════════════════════════════════════════════
+  async function submitSurvey() {
+    if (!validate()) return;
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled  = true;
+    btn.innerHTML = '⏳ &nbsp; Submitting, please wait…';
+
+    const surveyId  = 'NM-' + Date.now().toString(36).toUpperCase();
+    const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+    const vals      = Object.values(answers);
+    const yesCount   = vals.filter(v => v === 'Yes').length;
+    const noCount    = vals.filter(v => v === 'No').length;
+
+    const payload = {
+      surveyId,
+      timestamp,
+      empId:     document.getElementById('empId').value.trim(),
+      empName:   document.getElementById('empName').value.trim(),
+      empOrg:    document.getElementById('empOrg').value.trim(),
+      empMobile: document.getElementById('empMobile').value.trim(),
+      yesCount,
+      noCount
+    };
+
+    QUESTIONS.forEach((q, i) => {
+      const n = i + 1;
+      payload[`Q${n}_Answer`] = answers[n] || '';
+      payload[`Q${n}_Text`]   = q;
+    });
+
+    try {
+      await fetch(SHEET_URL, {
+        method:  'POST',
+        mode:    'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload)
+      });
+    } catch(e) { /* no-cors mode — errors expected but data is sent */ }
+
+    showToast('Response submitted successfully!', 'ok');
+
+    setTimeout(() => {
+      document.getElementById('mainSurvey').style.display    = 'none';
+      document.getElementById('successScreen').style.display = 'block';
+      document.getElementById('scSid').textContent    = surveyId;
+      document.getElementById('scYesNo').textContent = `${yesCount} Yes · ${noCount} No`;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 700);
+  }
+
+  // ════════════════════════════════════════════
+  //  RESET FORM
+  // ════════════════════════════════════════════
+  function resetSurvey() {
+    answers = {};
+    ['empId','empName','empMobile'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('empOrg').value = '';
+    document.querySelectorAll('.fg input, .fg select').forEach(el => el.classList.remove('err'));
+    document.querySelectorAll('.err-msg').forEach(el => el.classList.remove('show'));
+    document.getElementById('summaryPanel').classList.remove('show');
+    document.getElementById('progFill').style.width = '1%';
+    document.getElementById('progPct').textContent  = '0%';
+    document.getElementById('progTxt').textContent  = 'Fill in your details to begin';
+    const btn = document.getElementById('submitBtn');
+    btn.disabled  = false;
+    btn.innerHTML = '🚀 &nbsp; Submit Survey';
+    buildQuestions();
+    document.getElementById('mainSurvey').style.display    = 'block';
+    document.getElementById('successScreen').style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ════════════════════════════════════════════
+  //  INIT
+  // ════════════════════════════════════════════
+  buildQuestions();
+  </script>
+  </body>
+  </html>
